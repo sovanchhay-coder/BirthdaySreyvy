@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthday Surprise for Sorn Sreyvy</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="background-glow"></div>
+      <div class="tech-grid" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <section class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-card">
+          <span class="badge">Surprise</span>
+          <h1>Hey Sorn Sreyvy...</h1>
+          <p class="welcome-text">I have something for you <span>💖</span></p>
+          <button class="primary-button" id="openButton">
+            Open Your Surprise
+          </button>
+        </div>
+      </section>
+
+      <main class="birthday-scene hidden" id="birthdayScene">
+        <div class="float-layer"></div>
+        <canvas
+          id="fireworkCanvas"
+          class="firework-canvas"
+          aria-hidden="true"
+        ></canvas>
+
+        <div class="sparkle-layer" aria-hidden="true">
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+        </div>
+
+        <div class="balloons" aria-hidden="true">
+          <div class="balloon balloon-1"></div>
+          <div class="balloon balloon-2"></div>
+          <div class="balloon balloon-3"></div>
+          <div class="balloon balloon-4"></div>
+        </div>
+
+        <div class="heart-layer" aria-hidden="true">
+          <div class="heart heart-1"></div>
+          <div class="heart heart-2"></div>
+          <div class="heart heart-3"></div>
+        </div>
+
+        <section class="hero-section">
+          <div class="hero-card">
+            <h1>🎂 Happy Birthday, Sorn Sreyvy 🎂</h1>
+            <p class="hero-subtitle">
+              cute, smart, and an inspiring ITE student
+            </p>
+          </div>
+        </section>
+
+        <section class="message-grid">
+          <article class="message-card message-main">
+            <h2>Birthday Message</h2>
+            <pre class="typed-text" id="typedMessage"></pre>
+          </article>
+
+          <article class="message-card message-note">
+            <h2>Special note</h2>
+            <p>
+              I’m really lucky to have you as my friend. Keep shining and
+              chasing your dreams in IT. You inspire people more than you know.
+              💖
+            </p>
+            <button class="secondary-button" id="wishButton">
+              Make a Wish
+            </button>
+            <p class="wish-text hidden" id="wishText">
+              Your wish will come true ✨
+            </p>
+          </article>
+        </section>
+
+        <section class="gallery-section">
+          <div class="gallery-header">
+            <h2>Photo Gallery</h2>
+            <p>Placeholder memories for the sweetest moments.</p>
+          </div>
+          <div class="gallery-grid">
+            <div class="gallery-item">
+              <img src="image.png" alt="Memory 1" width="200" height="200" />
+            </div>
+            <div class="gallery-item">
+              <img
+                src="imagecopy.png"
+                alt="Memory 2"
+                width="176"
+                height="200"
+              />
+            </div>
+            <div class="gallery-item">
+              <img
+                src="image_copy.png"
+                alt="Memory 3"
+                width="200"
+                height="160"
+              />
+            </div>
+            <div class="gallery-item">
+              <img
+                src="image-copy.png"
+                alt="Memory 4"
+                width="160"
+                height="200"
+              />
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <audio id="birthdayAudio" preload="auto"></audio>
+    <script src="script.js"></script>
+  </body>
+</html>
