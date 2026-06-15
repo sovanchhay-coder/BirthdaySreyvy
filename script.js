@@ -10,17 +10,22 @@ const wishText = document.getElementById("wishText");
 // Full birthday message text in one block for the typing effect
 const typingLines = [
   `🎂💖 Happy Birthday, my dear Sorn Sreyvy! 💖🎂
-Today, the world feels a little brighter because it’s your special day. You are such a rare and precious gem — incredibly cute, endlessly kind, and wonderfully smart in every way. Your smile has this magical power to light up any room, and your gentle heart makes everyone around you feel cared for and valued.
 
-I truly admire how passionately you chase your goals in the IT world. Watching you work so hard, stay curious, and keep growing every single day fills me with so much pride and inspiration. You’re not just talented — you’re dedicated, resilient, and always ready to learn something new. That beautiful combination makes you truly unstoppable.
+Today is your special day, and I hope you have a very happy birthday. You are a kind, smart, and beautiful person. Your smile always makes people feel happy, and your caring heart makes everyone around you feel comfortable and appreciated.
 
-This new year of your life, I wish you an abundance of success that makes your heart soar, happiness that overflows in the simplest and sweetest moments, and unforgettable beautiful memories that you’ll cherish forever. May every dream you hold in your heart bloom into reality, one lovely step at a time. And whenever the path feels challenging, may you always find the inner strength, courage, and support you need to keep moving forward with confidence.
+I really admire how hard you work in the IT field. You are always willing to learn new things and improve yourself. Your dedication, effort, and positive attitude inspire me a lot. I believe these qualities will help you achieve great success in the future.
 
-Keep shining your beautiful light, keep smiling that radiant smile, and never stop being the warm, amazing, one-of-a-kind person you are. The world is so much better with you in it.
+On your birthday, I wish you good health, happiness, and success in everything you do. May all your dreams come true, and may you always have the strength and confidence to overcome any challenges in life.
 
-I’m incredibly grateful and happy to have you as my friend — someone I can laugh with, admire, and treasure. Thank you for being you. 🎉
+Keep smiling, keep believing in yourself, and keep working toward your goals. You are an amazing person, and I hope this new year of your life brings you many wonderful opportunities and beautiful memories.
 
-Wishing you the most magical birthday filled with love, joy, cake, and all the happiness in the world! May this year be your sweetest chapter yet. ✨💕\n\nFrom me Sor Sovanchhay`,
+I am very grateful to have you as my friend. Thank you for always being kind and supportive. I truly appreciate our friendship.
+
+🎉 Happy Birthday once again! 🎉
+
+May your day be filled with love, joy, laughter, delicious cake, and wonderful moments with your family and friends. Wishing you a fantastic year ahead! ✨💕
+
+From: Sor Sovanchhay ❤️`,
 ];
 
 let currentCharacter = 0;
