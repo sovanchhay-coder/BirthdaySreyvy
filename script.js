@@ -1,287 +1,498 @@
-// DOM nodes for the page interactions
-const openButton = document.getElementById("openButton");
-const wishButton = document.getElementById("wishButton");
+// ========== CORE DOM ELEMENTS ==========
+const startButton = document.getElementById("startButton");
 const welcomeScreen = document.getElementById("welcomeScreen");
 const birthdayScene = document.getElementById("birthdayScene");
 const typedMessage = document.getElementById("typedMessage");
-const birthdayAudio = document.getElementById("birthdayAudio");
-const wishText = document.getElementById("wishText");
+const wishButton = document.getElementById("wishButton");
+const wishMessage = document.getElementById("wishMessage");
+const giftBox = document.getElementById("giftBox");
+const musicButton = document.getElementById("musicButton");
+const backgroundMusic = document.getElementById("backgroundMusic");
+const finalMessageSection = document.getElementById("finalMessageSection");
+const scrollIndicator = document.querySelector(".scroll-indicator");
 
-// Full birthday message text in one block for the typing effect
-const typingLines = [
-  `🎂💖 Happy Birthday, my dear Sorn Sreyvy! 💖🎂
+// Canvas setup
+const particleCanvas = document.getElementById("particleCanvas");
+const fireworksCanvas = document.getElementById("fireworksCanvas");
+const particleCtx = particleCanvas?.getContext("2d");
+const fireworksCtx = fireworksCanvas?.getContext("2d");
 
-Today is your special day, and I hope you have a very happy birthday. You are a kind, smart, and beautiful person. Your smile always makes people feel happy, and your caring heart makes everyone around you feel comfortable and appreciated.
+// ========== SETTINGS & STATE ==========
+const fullMessage = `I am so grateful to have you as a friend. Your kindness, intelligence, and beautiful spirit inspire everyone around you. You work so hard in your IT studies, and I truly admire your dedication and passion for learning.
 
-I really admire how hard you work in the IT field. You are always willing to learn new things and improve yourself. Your dedication, effort, and positive attitude inspire me a lot. I believe these qualities will help you achieve great success in the future.
+On this special day, I want you to know that you deserve all the happiness in the world. Your smile brightens every room, and your presence makes everything better. You are talented, creative, and capable of achieving anything you set your mind to.
 
-On your birthday, I wish you good health, happiness, and success in everything you do. May all your dreams come true, and may you always have the strength and confidence to overcome any challenges in life.
+I hope this year brings you countless moments of joy, success in all your endeavors, and the fulfillment of your dreams. May you continue to grow, learn, and become even more amazing than you already are.
 
-Keep smiling, keep believing in yourself, and keep working toward your goals. You are an amazing person, and I hope this new year of your life brings you many wonderful opportunities and beautiful memories.
+Thank you for being you. Thank you for the memories, the laughs, and all the good times we've shared. You are truly one of the most wonderful people I have ever met.
 
-I am very grateful to have you as my friend. Thank you for always being kind and supportive. I truly appreciate our friendship.
+Wishing you a day as special as you are! 🎉✨`;
 
-🎉 Happy Birthday once again! 🎉
+let musicPlaying = false;
+let hasOpenedGift = false;
+let isAnimatingTyping = false;
 
-May your day be filled with love, joy, laughter, delicious cake, and wonderful moments with your family and friends. Wishing you a fantastic year ahead! ✨💕
-
-From: Sor Sovanchhay ❤️`,
-];
-
-let currentCharacter = 0;
-let typingTimeout = null;
-
-const fireworkCanvas = document.getElementById("fireworkCanvas");
-const fireworkCtx = fireworkCanvas?.getContext("2d");
-const fireworks = [];
-const particles = [];
-const fireworkColors = ["#ffb4e6", "#d5a0ff", "#f9dc9a", "#a5e0ff"];
-let fireworkAnimationId = null;
-
-function resizeFireworkCanvas() {
-  if (!fireworkCanvas) return;
-  fireworkCanvas.width = window.innerWidth;
-  fireworkCanvas.height = window.innerHeight;
-}
-
-window.addEventListener("resize", resizeFireworkCanvas);
-resizeFireworkCanvas();
-
-function randomBetween(min, max) {
-  return min + Math.random() * (max - min);
-}
-
-function createFireworkRocket() {
-  return {
-    x: randomBetween(window.innerWidth * 0.18, window.innerWidth * 0.82),
-    y: window.innerHeight + 12,
-    targetY: randomBetween(
-      window.innerHeight * 0.22,
-      window.innerHeight * 0.45,
-    ),
-    vx: randomBetween(-1.25, 1.25),
-    vy: randomBetween(-8.2, -7.0),
-    color: fireworkColors[Math.floor(Math.random() * fireworkColors.length)],
-    trail: [],
-  };
-}
-
-function createFireworkParticles(x, y, color) {
-  const count = 18 + Math.floor(Math.random() * 10);
-  for (let i = 0; i < count; i += 1) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = randomBetween(1.8, 4.6);
-    particles.push({
-      x,
-      y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      radius: randomBetween(2, 4.4),
-      alpha: 1,
-      decay: randomBetween(0.016, 0.028),
-      color,
-      glow: randomBetween(10, 18),
-    });
+// ========== CANVAS SETUP ==========
+function resizeCanvases() {
+  if (particleCanvas) {
+    particleCanvas.width = window.innerWidth;
+    particleCanvas.height = window.innerHeight;
+  }
+  if (fireworksCanvas) {
+    fireworksCanvas.width = window.innerWidth;
+    fireworksCanvas.height = window.innerHeight;
   }
 }
 
-function launchFirework() {
-  fireworks.push(createFireworkRocket());
-  if (!fireworkAnimationId) {
-    fireworkAnimationId = requestAnimationFrame(updateFireworks);
-  }
-}
+resizeCanvases();
+window.addEventListener("resize", resizeCanvases);
 
-function triggerFireworks() {
-  const launches = 2 + Math.floor(Math.random() * 3);
-  for (let i = 0; i < launches; i += 1) {
-    setTimeout(launchFirework, i * 140);
-  }
-}
+// ========== TYPING ANIMATION ==========
+function startTypingAnimation() {
+  if (isAnimatingTyping) return;
+  isAnimatingTyping = true;
 
-function updateFireworks() {
-  if (!fireworkCtx) return;
-  fireworkCtx.clearRect(0, 0, fireworkCanvas.width, fireworkCanvas.height);
-  fireworkCtx.globalCompositeOperation = "lighter";
-
-  for (let i = fireworks.length - 1; i >= 0; i -= 1) {
-    const rocket = fireworks[i];
-    rocket.trail.unshift({ x: rocket.x, y: rocket.y });
-    if (rocket.trail.length > 6) rocket.trail.pop();
-
-    rocket.vy += 0.26;
-    rocket.x += rocket.vx;
-    rocket.y += rocket.vy;
-
-    fireworkCtx.globalAlpha = 0.35;
-    fireworkCtx.fillStyle = rocket.color;
-    rocket.trail.forEach((point, index) => {
-      const trailAlpha = 0.12 + (index / rocket.trail.length) * 0.26;
-      fireworkCtx.globalAlpha = trailAlpha;
-      fireworkCtx.beginPath();
-      fireworkCtx.arc(point.x, point.y, 2, 0, Math.PI * 2);
-      fireworkCtx.fill();
-    });
-
-    fireworkCtx.globalAlpha = 1;
-    fireworkCtx.shadowBlur = 12;
-    fireworkCtx.shadowColor = rocket.color;
-    fireworkCtx.fillStyle = rocket.color;
-    fireworkCtx.beginPath();
-    fireworkCtx.arc(rocket.x, rocket.y, 4.2, 0, Math.PI * 2);
-    fireworkCtx.fill();
-
-    if (rocket.y <= rocket.targetY || rocket.vy >= 0) {
-      createFireworkParticles(rocket.x, rocket.y, rocket.color);
-      fireworks.splice(i, 1);
-    }
-  }
-
-  for (let i = particles.length - 1; i >= 0; i -= 1) {
-    const particle = particles[i];
-    particle.vx *= 0.98;
-    particle.vy += 0.08;
-    particle.x += particle.vx;
-    particle.y += particle.vy;
-    particle.alpha -= particle.decay;
-
-    if (particle.alpha <= 0) {
-      particles.splice(i, 1);
-      continue;
-    }
-
-    fireworkCtx.globalAlpha = particle.alpha;
-    fireworkCtx.fillStyle = particle.color;
-    fireworkCtx.shadowBlur = particle.glow;
-    fireworkCtx.shadowColor = particle.color;
-    fireworkCtx.beginPath();
-    fireworkCtx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-    fireworkCtx.fill();
-  }
-
-  if (fireworks.length > 0 || particles.length > 0) {
-    fireworkAnimationId = requestAnimationFrame(updateFireworks);
-  } else {
-    fireworkAnimationId = null;
-    fireworkCtx.clearRect(0, 0, fireworkCanvas.width, fireworkCanvas.height);
-  }
-}
-
-// Activate the birthday scene and start typing the message
-function openSurprise() {
-  welcomeScreen.classList.add("hide-animation");
-
-  clearTimeout(typingTimeout);
-  currentCharacter = 0;
   typedMessage.textContent = "";
+  let index = 0;
 
-  setTimeout(() => {
-    welcomeScreen.classList.add("hidden");
-    birthdayScene.classList.remove("hidden");
-    birthdayScene.classList.add("showing");
-    resizeFireworkCanvas();
-    startTyping();
-  }, 480);
+  function typeCharacter() {
+    if (index < fullMessage.length) {
+      typedMessage.textContent += fullMessage[index];
+      index++;
+
+      const speed = Math.random() > 0.95 ? 5 : 30;
+      setTimeout(typeCharacter, speed);
+    } else {
+      isAnimatingTyping = false;
+    }
+  }
+
+  typeCharacter();
 }
 
-// Play background music after user interaction
-function playBackgroundMusic() {
-  const audioUrl =
-    "https://cdn.pixabay.com/download/audio/2021/09/30/audio_68b5ba276b.mp3?filename=romantic-12790.mp3";
-  birthdayAudio.src = audioUrl;
-  birthdayAudio.volume = 0.55;
-  birthdayAudio.loop = true;
-  birthdayAudio.play().catch(() => {
-    console.warn(
-      "Background music requires additional user interaction to play in some browsers.",
-    );
-  });
-}
+// ========== FIREWORKS ANIMATION ==========
+class Particle {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.velocity = {
+      x: (Math.random() - 0.5) * 8,
+      y: (Math.random() - 0.5) * 8 - 2,
+    };
+    this.alpha = 1;
+    this.decay = Math.random() * 0.015 + 0.008;
+    this.radius = Math.random() * 3 + 2;
+  }
 
-// Typing animation for the birthday message block
-function startTyping() {
-  const text = typingLines[0];
+  update() {
+    this.velocity.x *= 0.98;
+    this.velocity.y += 0.1;
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
+    this.alpha -= this.decay;
+  }
 
-  if (currentCharacter < text.length) {
-    typedMessage.textContent += text[currentCharacter];
-    currentCharacter += 1;
-    typingTimeout = setTimeout(startTyping, 30);
+  draw(ctx) {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
   }
 }
 
-// Make wish animation with hearts and fireworks
-function makeWish() {
-  wishText.classList.remove("hidden");
-  wishText.classList.add("visible");
-  triggerFireworks();
-  createFloatingHearts();
+let particles = [];
 
-  setTimeout(() => {
-    wishText.classList.remove("visible");
-    wishText.classList.add("hidden");
-  }, 3800);
-}
+function createFireworks() {
+  const colors = ["#ff8ec7", "#d8a5ff", "#ffd99a", "#ffb3d9", "#c170ff"];
+  const burstCount = 5;
 
-// Floating hearts animation for the wish effect
-function createFloatingHearts() {
-  for (let count = 0; count < 16; count += 1) {
-    const heart = document.createElement("div");
-    heart.className = "wish-heart";
-    heart.style.left = `${20 + Math.random() * 60}%`;
-    heart.style.bottom = "16%";
-    heart.style.animationDuration = `${1.6 + Math.random() * 0.8}s`;
-    heart.style.animationDelay = `${Math.random() * 0.2}s`;
-    document.body.appendChild(heart);
-    heart.addEventListener("animationend", () => heart.remove());
+  for (let i = 0; i < burstCount; i++) {
+    const x = Math.random() * window.innerWidth;
+    const y =
+      Math.random() * (window.innerHeight * 0.4) + window.innerHeight * 0.1;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    for (let j = 0; j < 30; j++) {
+      particles.push(new Particle(x, y, color));
+    }
   }
 }
 
-openButton.addEventListener("click", () => {
-  openSurprise();
-  playBackgroundMusic();
+function animateFireworks() {
+  if (!fireworksCtx) return;
+
+  fireworksCtx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+
+  for (let i = particles.length - 1; i >= 0; i--) {
+    particles[i].update();
+    particles[i].draw(fireworksCtx);
+
+    if (particles[i].alpha <= 0) {
+      particles.splice(i, 1);
+    }
+  }
+
+  if (particles.length > 0) {
+    requestAnimationFrame(animateFireworks);
+  }
+}
+
+// ========== CONFETTI ANIMATION ==========
+function createConfetti() {
+  const confettiBurst = document.querySelector(".confetti-burst");
+  if (!confettiBurst) return;
+
+  confettiBurst.innerHTML = "";
+  const confettiPieces = 50;
+
+  for (let i = 0; i < confettiPieces; i++) {
+    const confetti = document.createElement("div");
+    const left = Math.random() * 100;
+    const delay = Math.random() * 0.3;
+    const duration = 2 + Math.random() * 1;
+
+    confetti.style.cssText = `
+      position: absolute;
+      left: ${left}%;
+      top: -10px;
+      width: 10px;
+      height: 10px;
+      background: ${["#ff8ec7", "#d8a5ff", "#ffd99a"][Math.floor(Math.random() * 3)]};
+      border-radius: 50%;
+      animation: confettiFall ${duration}s linear ${delay}s forwards;
+    `;
+
+    confettiBurst.appendChild(confetti);
+  }
+}
+
+// ========== MOUSE PARTICLES ==========
+let lastX = 0;
+let lastY = 0;
+
+document.addEventListener("mousemove", (e) => {
+  lastX = e.clientX;
+  lastY = e.clientY;
+
+  if (!particleCtx) return;
+
+  const particle = new Particle(e.clientX, e.clientY, "#ffb3d9");
+  particles.push(particle);
 });
-wishButton.addEventListener("click", makeWish);
 
-// Dynamic heart CSS for wish animation
-const dynamicStyle = document.createElement("style");
-dynamicStyle.textContent = `
-.wish-heart {
-  position: fixed;
-  width: 18px;
-  height: 18px;
-  background: linear-gradient(135deg, #ff95d1, #ffd9f0);
-  transform: rotate(45deg);
-  border-radius: 22px 22px 0 22px;
-  pointer-events: none;
-  z-index: 999;
+// ========== CLICK PARTICLES ==========
+document.addEventListener("click", (e) => {
+  if (!particleCtx) return;
+
+  const colors = ["#ff8ec7", "#d8a5ff", "#ffd99a"];
+  const particleCount = 20;
+
+  for (let i = 0; i < particleCount; i++) {
+    const angle = (Math.PI * 2 * i) / particleCount;
+    const velocity = {
+      x: Math.cos(angle) * (Math.random() * 5 + 2),
+      y: Math.sin(angle) * (Math.random() * 5 + 2),
+    };
+
+    const p = new Particle(
+      e.clientX,
+      e.clientY,
+      colors[Math.floor(Math.random() * colors.length)],
+    );
+    p.velocity = velocity;
+    particles.push(p);
+  }
+});
+
+// ========== PAGE TRANSITIONS ==========
+function goToMainScene() {
+  welcomeScreen.classList.remove("active");
+  welcomeScreen.classList.add("hidden");
+
+  setTimeout(() => {
+    birthdayScene.classList.remove("hidden");
+    startTypingAnimation();
+    createFireworks();
+    animateFireworks();
+
+    // Trigger scroll indicator fade after a delay
+    setTimeout(() => {
+      if (scrollIndicator) scrollIndicator.style.opacity = "1";
+    }, 1000);
+  }, 300);
 }
-.wish-heart::before,
-.wish-heart::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background: inherit;
-  border-radius: 50%;
+
+startButton?.addEventListener("click", goToMainScene);
+
+// ========== WISH BUTTON ==========
+wishButton?.addEventListener("click", () => {
+  wishMessage.classList.remove("hidden");
+
+  if (typeof gsap !== "undefined") {
+    gsap.to(wishMessage, {
+      duration: 0.5,
+      scale: 1.1,
+      repeat: 1,
+      yoyo: true,
+      ease: "elastic.out(1, 0.5)",
+    });
+  }
+
+  setTimeout(() => {
+    createFireworks();
+    animateFireworks();
+  }, 500);
+});
+
+// ========== GIFT BOX INTERACTION ==========
+giftBox?.addEventListener("click", () => {
+  if (hasOpenedGift) return;
+  hasOpenedGift = true;
+
+  // Animate gift box opening
+  if (typeof gsap !== "undefined") {
+    gsap.to(giftBox, {
+      duration: 0.6,
+      scale: 0.1,
+      opacity: 0,
+      y: -100,
+      ease: "back.in",
+      onComplete: () => {
+        giftBox.style.display = "none";
+      },
+    });
+  } else {
+    giftBox.style.display = "none";
+  }
+
+  // Create confetti
+  createConfetti();
+
+  // Show final message
+  setTimeout(() => {
+    finalMessageSection.classList.remove("hidden");
+
+    if (typeof gsap !== "undefined") {
+      gsap.fromTo(
+        finalMessageSection,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+      );
+    }
+
+    // Create more fireworks
+    createFireworks();
+    animateFireworks();
+  }, 600);
+});
+
+// ========== MUSIC CONTROL ==========
+musicButton?.addEventListener("click", (e) => {
+  e.stopPropagation();
+
+  musicPlaying = !musicPlaying;
+
+  if (musicPlaying) {
+    backgroundMusic
+      ?.play()
+      .catch((err) => console.log("Audio play failed:", err));
+    musicButton.style.background = "linear-gradient(135deg, #ff8ec7, #d8a5ff)";
+  } else {
+    backgroundMusic?.pause();
+    musicButton.style.background =
+      "linear-gradient(135deg, rgba(255, 142, 199, 0.5), rgba(216, 165, 255, 0.5))";
+  }
+});
+
+// ========== GSAP SCROLL ANIMATIONS ==========
+if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Animate sections on scroll
+  gsap.utils
+    .toArray(
+      ".countdown-section, .heart-section, .message-section, .gallery-section, .cake-section, .gift-section",
+    )
+    .forEach((element) => {
+      gsap.fromTo(
+        element,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 80%",
+            once: true,
+          },
+        },
+      );
+    });
 }
-.wish-heart::before {
-  top: -9px;
-  left: 0;
+
+// ========== PARTICLE ANIMATION LOOP ==========
+function animateParticles() {
+  if (!particleCtx) {
+    requestAnimationFrame(animateParticles);
+    return;
+  }
+
+  particleCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+
+  for (let i = particles.length - 1; i >= 0; i--) {
+    particles[i].update();
+    particles[i].draw(particleCtx);
+
+    if (particles[i].alpha <= 0) {
+      particles.splice(i, 1);
+    }
+  }
+
+  requestAnimationFrame(animateParticles);
 }
-.wish-heart::after {
-  left: 9px;
-  top: 0;
+
+animateParticles();
+
+// ========== PETALS ANIMATION ==========
+function createPetals() {
+  const petalsContainer = document.querySelector(".petals-container");
+  if (!petalsContainer) return;
+
+  for (let i = 0; i < 15; i++) {
+    const petal = document.createElement("div");
+    const left = Math.random() * 100;
+    const delay = Math.random() * 3;
+    const duration = 4 + Math.random() * 2;
+    const xOffset = Math.random() * 100 - 50;
+
+    petal.innerHTML = "🌸";
+    petal.style.cssText = `
+      position: absolute;
+      left: ${left}%;
+      top: -20px;
+      font-size: 1.5rem;
+      opacity: 0.7;
+      animation: fallPetal${i} ${duration}s linear ${delay}s infinite;
+      pointer-events: none;
+    `;
+
+    petalsContainer.appendChild(petal);
+  }
 }
-@keyframes heartRise {
-  0% { transform: translateY(0) rotate(45deg) scale(0.85); opacity: 0.95; }
-  60% { opacity: 0.95; }
-  100% { transform: translateY(-250px) rotate(45deg) scale(0.4); opacity: 0; }
-}
-.wish-heart {
-  animation-name: heartRise;
-  animation-timing-function: ease-out;
-  animation-fill-mode: forwards;
-}
+
+createPetals();
+
+// ========== ADD ANIMATION KEYFRAMES ==========
+const style = document.createElement("style");
+let petalKeyframes = `
+  @keyframes confettiFall {
+    to {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
 `;
 
-document.head.appendChild(dynamicStyle);
+for (let i = 0; i < 15; i++) {
+  const xOffset = Math.random() * 100 - 50;
+  petalKeyframes += `
+    @keyframes fallPetal${i} {
+      to {
+        transform: translateY(100vh) translateX(${xOffset}px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  `;
+}
+
+style.textContent = petalKeyframes;
+document.head.appendChild(style);
+
+// ========== KEYBOARD SHORTCUTS ==========
+document.addEventListener("keydown", (e) => {
+  if (e.key === " ") {
+    e.preventDefault();
+    if (welcomeScreen.classList.contains("active")) {
+      goToMainScene();
+    }
+  }
+});
+
+// ========== PAGE VISIBILITY ==========
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    if (musicPlaying) backgroundMusic?.pause();
+  } else {
+    if (musicPlaying)
+      backgroundMusic
+        ?.play()
+        .catch((err) => console.log("Audio play failed:", err));
+  }
+});
+
+// ========== INITIAL SETUP ==========
+window.addEventListener("load", () => {
+  // Preload music
+  if (backgroundMusic) {
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.5;
+  }
+
+  // Initialize animations
+  createFireworks();
+  animateFireworks();
+});
+
+// ========== ACCESSIBILITY & PERFORMANCE ==========
+if (navigator.userAgent.match(/mobile|android|iphone|ipad/i)) {
+  // Reduce particle count on mobile
+  document.documentElement.style.setProperty("--particle-count", "20");
+}
+
+// Prevent right-click context menu on gift box (optional)
+giftBox?.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  giftBox.click();
+  return false;
+});
+
+// ========== TOUCH SUPPORT ==========
+document.addEventListener("touchstart", (e) => {
+  if (!particleCtx) return;
+
+  const touch = e.touches[0];
+  const colors = ["#ff8ec7", "#d8a5ff", "#ffd99a"];
+  const particleCount = 15;
+
+  for (let i = 0; i < particleCount; i++) {
+    const angle = (Math.PI * 2 * i) / particleCount;
+    const velocity = {
+      x: Math.cos(angle) * (Math.random() * 4 + 1.5),
+      y: Math.sin(angle) * (Math.random() * 4 + 1.5),
+    };
+
+    const p = new Particle(
+      touch.clientX,
+      touch.clientY,
+      colors[Math.floor(Math.random() * colors.length)],
+    );
+    p.velocity = velocity;
+    particles.push(p);
+  }
+});
+
+// ========== CONSOLE MESSAGE ==========
+console.log(
+  "%c🎂 Happy Birthday Sorn Sreyvy! 💖",
+  "color: #ff8ec7; font-size: 20px; font-weight: bold;",
+);
+console.log(
+  "%cWishing you the most wonderful birthday ever!",
+  "color: #d8a5ff; font-size: 14px;",
+);
