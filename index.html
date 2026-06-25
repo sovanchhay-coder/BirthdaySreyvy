@@ -3,133 +3,227 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Birthday Surprise for Sorn Sreyvy</title>
+    <title>🎂 Happy Birthday Sorn Sreyvy 💖</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="page-shell">
-      <div class="background-glow"></div>
-      <div class="tech-grid" aria-hidden="true">
-        <span></span><span></span><span></span><span></span>
-      </div>
+    <div class="page-container">
+      <!-- Background Elements -->
+      <div class="stars-background" aria-hidden="true"></div>
+      <canvas
+        id="particleCanvas"
+        class="particle-canvas"
+        aria-hidden="true"
+      ></canvas>
 
-      <section class="welcome-screen" id="welcomeScreen">
-        <div class="welcome-card">
-          <span class="badge">Surprise</span>
-          <h1>Hey Sorn Sreyvy...</h1>
-          <p class="welcome-text">I have something for you <span>💖</span></p>
-          <button class="primary-button" id="openButton">
-            Open Your Surprise
-          </button>
+      <!-- Welcome Screen -->
+      <section class="welcome-screen active" id="welcomeScreen">
+        <div class="welcome-container">
+          <div class="welcome-card glass">
+            <div class="card-content">
+              <span class="badge">💝 Special Gift</span>
+              <h1 class="greeting-text">
+                Happy Birthday,<br /><span class="name-highlight"
+                  >Sorn Sreyvy</span
+                >
+                💖
+              </h1>
+              <p class="welcome-description">
+                I have something special for you...
+              </p>
+              <div class="beating-heart-container">
+                <div class="beating-heart"></div>
+              </div>
+              <button class="btn-primary" id="startButton">
+                <span>Click to Begin</span>
+                <span class="shimmer"></span>
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
+      <!-- Main Birthday Scene -->
       <main class="birthday-scene hidden" id="birthdayScene">
-        <div class="float-layer"></div>
+        <!-- Animated Elements -->
         <canvas
-          id="fireworkCanvas"
-          class="firework-canvas"
+          id="fireworksCanvas"
+          class="canvas-full"
           aria-hidden="true"
         ></canvas>
 
-        <div class="sparkle-layer" aria-hidden="true">
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
-          <span class="sparkle"></span>
+        <div class="floating-hearts" aria-hidden="true">
+          <div class="heart"></div>
+          <div class="heart"></div>
+          <div class="heart"></div>
+          <div class="heart"></div>
+          <div class="heart"></div>
         </div>
 
-        <div class="balloons" aria-hidden="true">
+        <div class="floating-balloons" aria-hidden="true">
           <div class="balloon balloon-1"></div>
           <div class="balloon balloon-2"></div>
           <div class="balloon balloon-3"></div>
           <div class="balloon balloon-4"></div>
+          <div class="balloon balloon-5"></div>
         </div>
 
-        <div class="heart-layer" aria-hidden="true">
-          <div class="heart heart-1"></div>
-          <div class="heart heart-2"></div>
-          <div class="heart heart-3"></div>
+        <div class="petals-container" aria-hidden="true"></div>
+
+        <div class="floating-frames" aria-hidden="true">
+          <div class="frame frame-1"></div>
+          <div class="frame frame-2"></div>
+          <div class="frame frame-3"></div>
         </div>
 
-        <section class="hero-section">
-          <div class="hero-card">
-            <h1>🎂 Happy Birthday, Sorn Sreyvy 🎂</h1>
-            <p class="hero-subtitle">
-              cute, smart, and an inspiring ITE student
-            </p>
-          </div>
-        </section>
+        <!-- Main Content -->
+        <div class="content-wrapper">
+          <!-- Countdown Section -->
+          <section class="countdown-section">
+            <div class="countdown-text glass">
+              <h2 class="countdown-title">🎉 Happy Birthday! 🎉</h2>
+              <p class="countdown-message">To the most wonderful person</p>
+            </div>
+          </section>
 
-        <section class="message-grid">
-          <article class="message-card message-main">
-            <h2>Birthday Message</h2>
-            <pre class="typed-text" id="typedMessage"></pre>
-          </article>
+          <!-- Beating Heart Section -->
+          <section class="heart-section">
+            <div class="heart-display glass">
+              <div class="glowing-heart-wrapper">
+                <div class="glowing-heart"></div>
+                <div class="heart-particles" aria-hidden="true"></div>
+              </div>
+            </div>
+          </section>
 
-          <article class="message-card message-note">
-            <h2>Special note</h2>
-            <p>
-              I’m really lucky to have you as my friend. Keep shining and
-              chasing your dreams in IT. You inspire people more than you know.
-              💖
-            </p>
-            <button class="secondary-button" id="wishButton">
-              Make a Wish
-            </button>
-            <p class="wish-text hidden" id="wishText">
-              Your wish will come true ✨
-            </p>
-          </article>
-        </section>
+          <!-- Message Section with Typing Effect -->
+          <section class="message-section">
+            <div class="message-card glass">
+              <h2 class="message-title">💌 A Message For You</h2>
+              <p class="message-intro">
+                You are one of the most wonderful people I have ever met.
+              </p>
+              <div class="message-content">
+                <p id="typedMessage" class="typed-text"></p>
+                <div class="rose-petals-message" aria-hidden="true">
+                  <span class="petal">🌹</span>
+                  <span class="petal">🌹</span>
+                  <span class="petal">🌹</span>
+                </div>
+              </div>
+            </div>
+          </section>
 
-        <section class="gallery-section">
-          <div class="gallery-header">
-            <h2>Photo Gallery</h2>
-            <p>Placeholder memories for the sweetest moments.</p>
-          </div>
-          <div class="gallery-grid">
-            <div class="gallery-item">
-              <img src="image.png" alt="Memory 1" width="200" height="200" />
+          <!-- Gallery Section -->
+          <section class="gallery-section">
+            <h2 class="gallery-title">📸 Beautiful Moments</h2>
+            <div class="gallery-container">
+              <div class="gallery-frame">
+                <img src="image.png" alt="Memory 1" />
+              </div>
+              <div class="gallery-frame">
+                <img src="image-copy.png" alt="Memory 2" />
+              </div>
+              
+              <div class="gallery-frame">
+                <img src="imagecopy.png" alt="Memory 4" />
+              </div>
             </div>
-            <div class="gallery-item">
-              <img
-                src="imagecopy.png"
-                alt="Memory 2"
-                width="176"
-                height="200"
-              />
+          </section>
+
+          <!-- 3D Cake Section -->
+          <section class="cake-section">
+            <div class="cake-container glass">
+              <h2 class="cake-title">🎂 Make A Wish!</h2>
+              <div class="cake-3d">
+                <div class="cake-body">
+                  <div class="cake-layer">
+                    <div class="candle">
+                      <div class="flame"></div>
+                    </div>
+                    <div class="candle">
+                      <div class="flame"></div>
+                    </div>
+                    <div class="candle">
+                      <div class="flame"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button class="btn-secondary" id="wishButton">Make A Wish</button>
+              <p class="wish-message hidden" id="wishMessage">
+                ✨ Your wish is beautiful! ✨
+              </p>
             </div>
-            <div class="gallery-item">
-              <img
-                src="image_copy.png"
-                alt="Memory 3"
-                width="200"
-                height="160"
-              />
+          </section>
+
+          <!-- Gift Box Section -->
+          <section class="gift-section">
+            <div class="gift-container glass">
+              <h2 class="gift-title">🎁 Your Special Gift</h2>
+              <div class="gift-box-wrapper">
+                <div class="gift-box" id="giftBox">
+                  <div class="gift-top">
+                    <div class="gift-ribbon"></div>
+                  </div>
+                  <div class="gift-body"></div>
+                  <p class="gift-hint">Click to open ✨</p>
+                </div>
+              </div>
             </div>
-            <div class="gallery-item">
-              <img
-                src="image-copy.png"
-                alt="Memory 4"
-                width="160"
-                height="200"
-              />
+          </section>
+
+          <!-- Final Message -->
+          <section
+            class="final-message-section hidden"
+            id="finalMessageSection"
+          >
+            <div class="final-card glass">
+              <div class="confetti-burst" aria-hidden="true"></div>
+              <h2 class="final-title">💖 Special Birthday Message 💖</h2>
+              <div class="final-message">
+                <p>
+                  Happy Birthday, <span class="highlight">Sorn Sreyvy</span> 🎉
+                </p>
+                <p>May your smile always shine brightly,</p>
+                <p>may your dreams come true,</p>
+                <p>and may happiness follow you wherever you go. ✨</p>
+                <p class="signature">
+                  With love and warmest wishes,<br />Your Friend 💝
+                </p>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
+
+        <!-- Music Control Button -->
+        <button class="music-button" id="musicButton" title="Toggle Music">
+          <span class="visualizer">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </span>
+        </button>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" aria-hidden="true">
+          <span>Scroll to explore</span>
+          <div class="scroll-arrow">↓</div>
+        </div>
       </main>
     </div>
 
-    <audio id="birthdayAudio" preload="auto"></audio>
+    <!-- Background Music -->
+    <audio id="backgroundMusic" preload="auto">
+      <source
+        src="HBD.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
