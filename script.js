@@ -18,15 +18,26 @@ const particleCtx = particleCanvas?.getContext("2d");
 const fireworksCtx = fireworksCanvas?.getContext("2d");
 
 // ========== SETTINGS & STATE ==========
-const fullMessage = `I am so grateful to have you as a friend. Your kindness, intelligence, and beautiful spirit inspire everyone around you. You work so hard in your IT studies, and I truly admire your dedication and passion for learning.
+const fullMessage = `🎂💖 Happy Birthday, my dear Sorn Sreyvy! 💖🎂
 
-On this special day, I want you to know that you deserve all the happiness in the world. Your smile brightens every room, and your presence makes everything better. You are talented, creative, and capable of achieving anything you set your mind to.
+Today is your special day, and I want to wish you the happiest birthday ever. You are such a kind, intelligent, and beautiful person, and your smile has a wonderful way of bringing happiness to everyone around you.
 
-I hope this year brings you countless moments of joy, success in all your endeavors, and the fulfillment of your dreams. May you continue to grow, learn, and become even more amazing than you already are.
+I truly admire your dedication and hard work in the IT field. Your determination to keep learning and improving yourself is inspiring, and I have no doubt that you have a bright and successful future ahead of you.
 
-Thank you for being you. Thank you for the memories, the laughs, and all the good times we've shared. You are truly one of the most wonderful people I have ever met.
+On your birthday, I wish you good health, endless happiness, great success, and the strength to achieve every dream you have. Keep believing in yourself, stay confident, and never stop pursuing your goals.
 
-Wishing you a day as special as you are! 🎉✨`;
+I am grateful to have you in my life as a friend. Thank you for your kindness, support, and the positive energy you bring wherever you go. Honestly, whenever I talk to you or spend time with you, I feel very happy than usual. I can't fully explain why, but being around you always makes my day a little brighter.
+
+🎉 Happy Birthday once again! 🎉
+
+May your day be filled with love, joy, laughter, delicious cake, and unforgettable memories with the people who care about you. I wish you a wonderful year ahead filled with new opportunities and beautiful moments. ✨💕
+
+Before I end this message, I want you to remember something from  my heart: no matter what the future holds for us, whether we remain friends or eventually walk different paths, I will always want to see you succeed. I hope you achieve your dreams, become the person you aspire to be, and find true happiness in life. Even if I am no longer part of your journey someday, I will always be cheering for you and feeling proud of everything you accomplish.
+
+Love you, Kon Pov from Team Kapelele or in happy family . ❤️
+
+From your small teacher, your friend, and your supporter,
+Sor Sovanchhay ❤️`;
 
 let musicPlaying = false;
 let hasOpenedGift = false;
