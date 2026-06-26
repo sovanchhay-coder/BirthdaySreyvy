@@ -224,6 +224,18 @@ function goToMainScene() {
   welcomeScreen.classList.remove("active");
   welcomeScreen.classList.add("hidden");
 
+  // Play music automatically when the button is clicked
+  if (backgroundMusic) {
+    backgroundMusic
+      .play()
+      .catch((err) => console.log("Audio play failed:", err));
+    musicPlaying = true;
+    if (musicButton) {
+      musicButton.style.background =
+        "linear-gradient(135deg, #ff8ec7, #d8a5ff)";
+    }
+  }
+
   setTimeout(() => {
     birthdayScene.classList.remove("hidden");
     startTypingAnimation();
