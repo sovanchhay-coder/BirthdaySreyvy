@@ -376,7 +376,7 @@ body {
   margin-bottom: 20px;
   background: linear-gradient(135deg, #ff8ec7, #d8a5ff, #ffd99a);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  
   background-clip: text;
   animation: pulse 2s ease-in-out infinite;
 }
@@ -496,7 +496,7 @@ body {
   margin-bottom: 15px;
   background: linear-gradient(135deg, #ff8ec7, #d8a5ff);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  
   background-clip: text;
 }
 
@@ -629,7 +629,6 @@ body {
   margin-bottom: 30px;
   background: linear-gradient(135deg, #ff8ec7, #ffd99a);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
@@ -750,7 +749,7 @@ body {
   margin-bottom: 40px;
   background: linear-gradient(135deg, #ff8ec7, #ffd99a);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+
   background-clip: text;
 }
 
@@ -870,7 +869,7 @@ body {
   margin-bottom: 30px;
   background: linear-gradient(135deg, #ff8ec7, #d8a5ff, #ffd99a);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+
   background-clip: text;
   position: relative;
   z-index: 2;
